@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 import reducers from './reducers';
-import PostsList from './components/posts_list';
+import Home from './components/home';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -18,7 +18,7 @@ ReactDOM.render(
           {/* <Route path='/:category/:post_id' component={PostDetail} /> */}
           {/* <Route path='/:category' component={PostsList} /> */}
           {/* <Route path='/posts/edit' component={PostEdit} /> */}
-          <Route path='/' component={PostsList} />
+          <Route exact path='/' component={Home} />
         </Switch>
       </div>
     </BrowserRouter>
