@@ -10,9 +10,13 @@ class CategoriesList extends Component {
     }
 
     showCategories() {
-        return _.map(this.props.categories, category => {
+        const { selected_category } = this.props;
+        const categoriesArr = _.values(this.props.categories);
+        categoriesArr.splice(0, 0, { name: 'All Categories', path: '' })
+        return _.map(categoriesArr, category => {
+            const selected = selected_category && category.name === selected_category
             return (
-                <li className='list-group-item' key={category.name}>
+                <li className={`list-group-item ${selected ? 'active' : ''}`} key={category.name}>
                     <Link to={`/${category.path}`}>
                         {category.name}
                     </Link>
@@ -24,7 +28,6 @@ class CategoriesList extends Component {
     render() {
         return (
             <div>
-                <h1>All Categories</h1>
                 <ul className='list-group'>
                     {this.showCategories()}
                 </ul>
@@ -33,7 +36,4 @@ class CategoriesList extends Component {
     }
 }
 
-export default connect(
-    ({ categories }) => { return { categories } },
-    { getCategories }
-)(CategoriesList);
+export default connect(null, { getCategories })(CategoriesList);

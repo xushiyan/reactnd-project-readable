@@ -36,8 +36,13 @@ class PostsList extends Component {
     }
 
     showPosts() {
-        const { posts } = this.props;
-        return _.map(posts, post => {
+        const { selected_category, posts } = this.props;
+        const postsArr = (
+            selected_category
+                ? _.filter(posts, p => { return p.category === selected_category })
+                : _.values(posts)
+        );
+        return _.map(postsArr, post => {
             return (
                 <li className='list-group-item' key={post.id}>
                     <PostPreview post={post} />
@@ -54,7 +59,6 @@ class PostsList extends Component {
                 <Link className='btn btn-primary' to='/posts/edit'>
                     New Post
                 </Link>
-                <h1>All Posts</h1>
                 <ul className='list-group'>
                     {this.showPosts()}
                 </ul>
@@ -63,7 +67,4 @@ class PostsList extends Component {
     }
 }
 
-export default connect(
-    ({ posts }) => { return { posts }; },
-    { getPosts }
-)(PostsList);
+export default connect(null, { getPosts })(PostsList);
