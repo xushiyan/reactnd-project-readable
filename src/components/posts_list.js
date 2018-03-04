@@ -3,7 +3,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getPosts } from '../actions';
 import { Link } from 'react-router-dom';
-import { PostPreview } from './post';
+
+class PostPreview extends Component {
+    onClickEdit() {
+
+    }
+
+    onClickDelete() {
+
+    }
+
+    render() {
+        const { post } = this.props;
+        return (
+            <div>
+                <button>Edit</button>
+                <button>Delete</button>
+                <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
+                <h4>{post.author}</h4>
+                <button>up</button>
+                <button>down</button>
+                <p>{post.voteScore}</p>
+                <p>{post.commentCount}</p>
+            </div>
+        );
+    }
+}
 
 class PostsList extends Component {
     componentDidMount() {

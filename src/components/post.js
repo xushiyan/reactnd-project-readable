@@ -3,49 +3,26 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPost, getPostComments } from '../actions';
 
-class _PostPreview extends Component {
-    componentDidMount() {
-
-    }
-
-    onClickEdit() {
-
-    }
-
-    onClickDelete() {
-
-    }
-
-    render() {
-        const { post } = this.props;
-        return (
-            <div>
-                <button>Edit</button>
-                <button>Delete</button>
-                <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
-                <h4>{post.author}</h4>
-                <button>up</button>
-                <button>down</button>
-                <p>{post.voteScore}</p>
-                <p>{post.commentCount}</p>
-            </div>
-        );
-    }
-}
-const PostPreview = connect(null, null)(_PostPreview);
-
-class _PostDetail extends _PostPreview {
+class PostDetail extends Component {
     componentDidMount() {
         const { post_id } = this.props.match.params;
         this.props.getPost(post_id);
         this.props.getPostComments(post_id);
     }
 
-    onClickEdit() {
+    onClickEditPost() {
 
     }
 
-    onClickDelete() {
+    onClickDeletePost() {
+
+    }
+
+    onClickEditComment() {
+
+    }
+
+    onClickDeleteComment() {
 
     }
 
@@ -98,6 +75,7 @@ class _PostDetail extends _PostPreview {
         );
     }
 }
+
 const mapStateToProps = ({ posts }, ownProps) => {
     const post = posts[ownProps.match.params.post_id];
     return {
@@ -105,6 +83,5 @@ const mapStateToProps = ({ posts }, ownProps) => {
         comments: post && post.hasOwnProperty('comments') ? _.values(post.comments) : null
     };
 };
-const PostDetail = connect(mapStateToProps, { getPost, getPostComments })(_PostDetail);
+export default connect(mapStateToProps, { getPost, getPostComments })(PostDetail);
 
-export { PostPreview, PostDetail };
