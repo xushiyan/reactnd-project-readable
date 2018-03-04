@@ -12,9 +12,6 @@ class PostsList extends Component {
 
     showPosts() {
         const { posts } = this.props;
-        if (posts.length === 0)
-            return <div>Loading...</div>
-
         return _.map(posts, post => {
             return (
                 <li className='list-group-item' key={post.id}>

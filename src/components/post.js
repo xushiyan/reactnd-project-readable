@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPost } from '../actions';
+import { getPost, getPostComments } from '../actions';
 
 class _PostPreview extends Component {
     componentDidMount() {
@@ -34,10 +34,11 @@ class _PostPreview extends Component {
 }
 const PostPreview = connect(null, null)(_PostPreview);
 
-class _PostDetail extends Component {
+class _PostDetail extends _PostPreview {
     componentDidMount() {
         const { post_id } = this.props.match.params;
         this.props.getPost(post_id);
+        this.props.getPostComments(post_id);
     }
 
     onClickEdit() {
@@ -48,15 +49,12 @@ class _PostDetail extends Component {
 
     }
 
-    render() {
+    showPost() {
         const { post } = this.props;
         if (!post)
-            return <div>Loading...</div>
-
+            return <div>Loading post...</div>
         return (
             <div>
-                <Link to='/'>Back to All Posts</Link>
-                <Link to={`/${post.category}`}>Back to Posts in {post.category}</Link>
                 <button>Edit</button>
                 <button>Delete</button>
                 <h2>{post.title}</h2>
@@ -69,10 +67,44 @@ class _PostDetail extends Component {
             </div>
         );
     }
+
+    showComments() {
+        const { comments } = this.props;
+        return (
+            <ul className='list-group'>
+                {_.map(comments, comment => {
+                    return (
+                        <li className='list-group-item' key={comment.id}>
+                            {comment.body}
+                        </li>
+                    );
+                })}
+            </ul>
+        );
+    }
+
+    render() {
+        const { post } = this.props;
+        if (!post)
+            return <div>Loading...</div>
+
+        return (
+            <div>
+                <Link to='/'>Back to All Posts</Link>
+                <Link to={`/${post.category}`}>Back to Posts in {post.category}</Link>
+                {this.showPost()}
+                {this.showComments()}
+            </div>
+        );
+    }
 }
 const mapStateToProps = ({ posts }, ownProps) => {
-    return { post: posts[ownProps.match.params.post_id] };
+    const post = posts[ownProps.match.params.post_id];
+    return {
+        post: post,
+        comments: post && post.hasOwnProperty('comments') ? _.values(post.comments) : null
+    };
 };
-const PostDetail = connect(mapStateToProps, { getPost })(_PostDetail);
+const PostDetail = connect(mapStateToProps, { getPost, getPostComments })(_PostDetail);
 
 export { PostPreview, PostDetail };
