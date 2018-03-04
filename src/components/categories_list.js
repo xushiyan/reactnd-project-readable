@@ -33,8 +33,7 @@ class CategoriesList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return { categories: state.categories };
-};
-
-export default connect(mapStateToProps, { getCategories })(CategoriesList);
+export default connect(
+    ({ categories }) => { return { categories } },
+    { getCategories }
+)(CategoriesList);

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getPosts } from '../actions';
 import { Link } from 'react-router-dom';
+import { PostPreview } from './post';
 
 class PostsList extends Component {
     componentDidMount() {
@@ -10,10 +11,14 @@ class PostsList extends Component {
     }
 
     showPosts() {
-        return _.map(this.props.posts, post => {
+        const { posts } = this.props;
+        if (posts.length === 0)
+            return <div>Loading...</div>
+
+        return _.map(posts, post => {
             return (
                 <li className='list-group-item' key={post.id}>
-                    {post.title}
+                    <PostPreview post={post} />
                 </li>
             );
         });
@@ -36,8 +41,7 @@ class PostsList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return { posts: state.posts };
-};
-
-export default connect(mapStateToProps, { getPosts })(PostsList);
+export default connect(
+    ({ posts }) => { return { posts }; },
+    { getPosts }
+)(PostsList);
