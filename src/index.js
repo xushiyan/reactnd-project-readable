@@ -7,11 +7,14 @@ import promise from 'redux-promise';
 import reducers from './reducers';
 import Home from './components/home';
 import PostDetail from './components/post';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+const store = createStore(reducers, composeWithDevTools(
+  applyMiddleware(promise)
+));
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <BrowserRouter>
       <div>
         <Switch>
