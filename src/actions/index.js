@@ -71,6 +71,16 @@ export const changeSortCondition = (sortProperty, sortOrder) => {
     return {
         type: CHANGE_SORT_CONDITION,
         sortProperty: sortProperty,
-        sortOrder, sortOrder
+        sortOrder: sortOrder
+    };
+};
+
+/* up/down-vote post */
+export const CHANGE_POST_VOTE_SCORE = 'CHANGE_POST_VOTE_SCORE';
+export const changePostVoteScore = (postId, newVoteScore) => {
+    return {
+        type: CHANGE_POST_VOTE_SCORE,
+        postId: postId,
+        newVoteScore: newVoteScore
     };
 };

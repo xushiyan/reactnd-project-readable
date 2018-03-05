@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
     GET_POSTS, GET_POST, GET_POST_COMMENTS,
+    CHANGE_POST_VOTE_SCORE,
     CHANGE_SORT_ORDER, CHANGE_SORT_CONDITION,
     DEFAULT_SORT_ORDER, DEFAULT_SORT_PROPERTY
 } from '../actions';
@@ -18,9 +19,12 @@ export const PostsReducer = (state = {}, action) => {
             if (commentsArray.length === 0)
                 return state;
 
-            const post_id = commentsArray[0].parentId;
+            var postId = commentsArray[0].parentId;
             const comments = _.mapKeys(commentsArray, 'id');
-            return { ...state, [post_id]: { ...state[post_id], comments: comments } };
+            return { ...state, [postId]: { ...state[postId], comments: comments } };
+        case CHANGE_POST_VOTE_SCORE:
+            var postId = action.postId;
+            return { ...state, [postId]: { ...state[postId], voteScore: action.newVoteScore } };
         default:
             return state;
     }
