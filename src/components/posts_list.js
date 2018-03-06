@@ -2,44 +2,11 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    getPosts, changeSortOrder, changeSortCondition, updatePostVoteScore,
+    getPosts, changeSortOrder, changeSortCondition,
     VOTE_SCORE, TIMESTAMP, DEFAULT_SORT_ORDER, SORT_ORDERS
 } from '../actions';
 import { Link } from 'react-router-dom';
-
-class _PostPreview extends Component {
-    onClickEdit() {
-
-    }
-
-    onClickDelete() {
-
-    }
-
-    onClickChangeVoteScore(event) {
-        const { post } = this.props;
-        this.props.updatePostVoteScore(post.id, event.target.value);
-    }
-
-    render() {
-        const { post } = this.props;
-        return (
-            <div>
-                <button>Edit</button>
-                <button>Delete</button>
-                <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
-                <h4>{post.author}</h4>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
-                <p>{post.voteScore}</p>
-                <p>{post.commentCount}</p>
-            </div>
-        );
-    }
-}
-
-const PostPreview = connect(null, { updatePostVoteScore })(_PostPreview);
-
+import { PostPreview } from './post';
 
 class PostsList extends Component {
     componentDidMount() {

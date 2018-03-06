@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 import reducers from './reducers';
 import Home from './components/home';
-import PostDetail from './components/post';
+import { PostDetail } from './components/post';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const store = createStore(reducers, composeWithDevTools(

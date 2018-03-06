@@ -6,6 +6,7 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_POST = 'GET_POST';
 export const GET_POST_COMMENTS = 'GET_POST_COMMENTS';
 export const UPDATE_POST_VOTE_SCORE = 'UPDATE_POST_VOTE_SCORE';
+export const UPDATE_POST_COMMENT_VOTE_SCORE = 'UPDATE_POST_COMMENT_VOTE_SCORE';
 
 const http_client = axios.create({
     baseURL: 'http://localhost:3001',
@@ -49,6 +50,14 @@ export const updatePostVoteScore = (postId, upOrDownVote) => {
     const request = http_client.post(`/posts/${postId}`, { option: upOrDownVote });
     return {
         type: UPDATE_POST_VOTE_SCORE,
+        payload: request
+    };
+};
+
+export const updatePostCommentVoteScore = (commentId, upOrDownVote) => {
+    const request = http_client.post(`/comments/${commentId}`, { option: upOrDownVote });
+    return {
+        type: UPDATE_POST_COMMENT_VOTE_SCORE,
         payload: request
     };
 };

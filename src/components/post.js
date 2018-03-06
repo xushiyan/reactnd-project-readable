@@ -1,35 +1,58 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPost, getPostComments } from '../actions';
+import { getPost, updatePostVoteScore } from '../actions';
+import CommentsList from './comments_list';
 
-class PostDetail extends Component {
-    componentDidMount() {
-        const { post_id } = this.props.match.params;
-        this.props.getPost(post_id);
-        this.props.getPostComments(post_id);
-    }
 
-    onClickEditPost() {
+class _PostPreview extends Component {
+    onClickEdit() {
 
     }
 
-    onClickDeletePost() {
+    onClickDelete() {
 
     }
 
-    onClickEditComment() {
-
+    onClickChangeVoteScore(event) {
+        const { post } = this.props;
+        this.props.updatePostVoteScore(post.id, event.target.value);
     }
 
-    onClickDeleteComment() {
-
+    showPost(post) {
+        return (
+            <div>
+                <button>Edit</button>
+                <button>Delete</button>
+                <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
+                <h4>{post.author}</h4>
+                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
+                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
+                <p>{post.voteScore}</p>
+                <p>{post.commentCount}</p>
+            </div>
+        );
     }
 
-    showPost() {
+    render() {
         const { post } = this.props;
         if (!post)
             return <div>Loading post...</div>
+
+        return this.showPost(post);
+    }
+}
+
+export const PostPreview = connect(null, { updatePostVoteScore })(_PostPreview);
+
+
+class _PostDetail extends _PostPreview {
+    componentDidMount() {
+        const { post_id } = this.props.match.params;
+        this.props.getPost(post_id);
+    }
+
+    showPost(post) {
         return (
             <div>
                 <button>Edit</button>
@@ -37,8 +60,8 @@ class PostDetail extends Component {
                 <h2>{post.title}</h2>
                 <h4>{post.author}</h4>
                 <p>{post.body}</p>
-                <button>up</button>
-                <button>down</button>
+                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
+                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
                 <p>{post.voteScore}</p>
                 <p>{post.commentCount}</p>
             </div>
@@ -69,8 +92,8 @@ class PostDetail extends Component {
             <div>
                 <Link to='/'>Back to All Posts</Link>
                 <Link to={`/${post.category}`}>Back to Posts in {post.category}</Link>
-                {this.showPost()}
-                {this.showComments()}
+                {this.showPost(post)}
+                <CommentsList postId={post.id}/>
             </div>
         );
     }
@@ -78,10 +101,6 @@ class PostDetail extends Component {
 
 const mapStateToProps = ({ posts }, ownProps) => {
     const post = posts[ownProps.match.params.post_id];
-    return {
-        post: post,
-        comments: post && post.hasOwnProperty('comments') ? _.values(post.comments) : null
-    };
+    return { post };
 };
-export default connect(mapStateToProps, { getPost, getPostComments })(PostDetail);
-
+export const PostDetail = connect(mapStateToProps, { getPost, updatePostVoteScore })(_PostDetail);
