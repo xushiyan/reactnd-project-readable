@@ -5,13 +5,16 @@ export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_POST = 'GET_POST';
 export const GET_POST_COMMENTS = 'GET_POST_COMMENTS';
+export const UPDATE_POST_VOTE_SCORE = 'UPDATE_POST_VOTE_SCORE';
 
-const ROOT_URL = 'http://localhost:3001'
-const AUTH_TOKEN = 'Bearer some-token'
-const HEADERS = { headers: { Authorization: AUTH_TOKEN } };
+const http_client = axios.create({
+    baseURL: 'http://localhost:3001',
+});
+http_client.defaults.headers.common['Authorization'] = 'Bearer some-token';
+http_client.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const getPosts = () => {
-    const request = axios.get(`${ROOT_URL}/posts`, HEADERS)
+    const request = http_client.get('/posts')
     return {
         type: GET_POSTS,
         payload: request
@@ -19,25 +22,33 @@ export const getPosts = () => {
 };
 
 export const getCategories = () => {
-    const request = axios.get(`${ROOT_URL}/categories`, HEADERS);
+    const request = http_client.get('/categories')
     return {
         type: GET_CATEGORIES,
         payload: request
     };
 };
 
-export const getPost = (post_id) => {
-    const request = axios.get(`${ROOT_URL}/posts/${post_id}`, HEADERS);
+export const getPost = (postId) => {
+    const request = http_client.get(`/posts/${postId}`);
     return {
         type: GET_POST,
         payload: request
     };
 };
 
-export const getPostComments = (post_id) => {
-    const request = axios.get(`${ROOT_URL}/posts/${post_id}/comments`, HEADERS);
+export const getPostComments = (postId) => {
+    const request = http_client.get(`/posts/${postId}/comments`);
     return {
         type: GET_POST_COMMENTS,
+        payload: request
+    };
+};
+
+export const updatePostVoteScore = (postId, upOrDownVote) => {
+    const request = http_client.post(`/posts/${postId}`, { option: upOrDownVote });
+    return {
+        type: UPDATE_POST_VOTE_SCORE,
         payload: request
     };
 };
@@ -72,15 +83,5 @@ export const changeSortCondition = (sortProperty, sortOrder) => {
         type: CHANGE_SORT_CONDITION,
         sortProperty: sortProperty,
         sortOrder: sortOrder
-    };
-};
-
-/* up/down-vote post */
-export const CHANGE_POST_VOTE_SCORE = 'CHANGE_POST_VOTE_SCORE';
-export const changePostVoteScore = (postId, newVoteScore) => {
-    return {
-        type: CHANGE_POST_VOTE_SCORE,
-        postId: postId,
-        newVoteScore: newVoteScore
     };
 };
