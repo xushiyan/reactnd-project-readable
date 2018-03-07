@@ -4,6 +4,7 @@ import CategoriesList from './categories_list';
 import { connect } from 'react-redux';
 import { selectCategory } from '../actions';
 
+
 class Home extends Component {
     componentDidMount() {
         this.updateSelectedCategory();

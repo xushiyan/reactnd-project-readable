@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
     updatePostCommentVoteScore,
 } from '../actions';
+import Voter from './voter';
 
 
 class Comment extends Component {
@@ -21,8 +22,7 @@ class Comment extends Component {
                 <button>Delete</button>
                 <h4>{comment.author}</h4>
                 <p>{comment.body}</p>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
+                <Voter businessObject={comment} updateVoteScore={this.props.updatePostCommentVoteScore} />
                 <p>{comment.voteScore}</p>
             </div>
         );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPost, updatePostVoteScore } from '../actions';
+import Voter from './voter';
 
 
 class PostPreview extends Component {
@@ -13,11 +14,6 @@ class PostPreview extends Component {
 
     }
 
-    onClickChangeVoteScore(event) {
-        const { post } = this.props;
-        this.props.updatePostVoteScore(post.id, event.target.value);
-    }
-
     showPost(post) {
         return (
             <div>
@@ -25,8 +21,7 @@ class PostPreview extends Component {
                 <button>Delete</button>
                 <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
                 <h4>{post.author}</h4>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
+                <Voter businessObject={post} updateVoteScore={this.props.updatePostVoteScore} />
                 <p>{post.voteScore}</p>
                 <p>{post.commentCount}</p>
             </div>

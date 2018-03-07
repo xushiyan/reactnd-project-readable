@@ -4,17 +4,13 @@ import { Link } from 'react-router-dom';
 import { getPost, updatePostVoteScore } from '../actions';
 import CommentsList from './comments_list';
 import PostPreview from './post_preview';
+import Voter from './voter';
 
 
 class PostDetail extends PostPreview {
     componentDidMount() {
         const { post_id } = this.props.match.params;
         this.props.getPost(post_id);
-    }
-
-    onClickChangeVoteScore(event) {
-        const { post } = this.props;
-        this.props.updatePostVoteScore(post.id, event.target.value);
     }
 
     showPost(post) {
@@ -25,8 +21,7 @@ class PostDetail extends PostPreview {
                 <h2>{post.title}</h2>
                 <h4>{post.author}</h4>
                 <p>{post.body}</p>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
+                <Voter businessObject={post} updateVoteScore={this.props.updatePostVoteScore} />
                 <p>{post.voteScore}</p>
                 <p>{post.commentCount}</p>
             </div>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getCategories } from '../actions';
 import { Link } from 'react-router-dom';
 
+
 class CategoriesList extends Component {
     componentDidMount() {
         this.props.getCategories();
