@@ -6,7 +6,9 @@ import {
     VOTE_SCORE, TIMESTAMP, DEFAULT_SORT_ORDER, SORT_ORDERS
 } from '../actions';
 import { Link } from 'react-router-dom';
-import { PostPreview } from './post';
+import PostPreview from './post_preview';
+import PostDetail from './post_detail';
+
 
 class PostsList extends Component {
     componentDidMount() {
@@ -31,13 +33,19 @@ class PostsList extends Component {
                 ? _.filter(this.props.posts, p => { return p.category === selectedCategory })
                 : this.props.posts
         );
-        return _.map(posts, post => {
-            return (
-                <li className='list-group-item' key={post.id}>
-                    <PostPreview post={post} />
-                </li>
-            );
-        });
+        return (
+            <ul className='list-group'>
+                {
+                    _.map(posts, post => {
+                        return (
+                            <li className='list-group-item' key={post.id}>
+                                <PostPreview post={post} />
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        );
     }
 
     render() {
@@ -57,10 +65,8 @@ class PostsList extends Component {
                         </button>
                     </div>
                     <Link className='btn btn-primary' to='/posts/edit'>New Post</Link>
-                </div>
-                <ul className='list-group'>
                     {this.showPosts()}
-                </ul>
+                </div>
             </div>
         );
     }

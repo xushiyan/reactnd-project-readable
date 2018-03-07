@@ -12,24 +12,28 @@ class CategoriesList extends Component {
     showCategories() {
         const categories = [{ name: 'All Categories', path: '' }, ...this.props.categories];
         const { selectedCategory } = this.props;
-        return _.map(categories, category => {
-            const selected = selectedCategory && category.name === selectedCategory
-            return (
-                <li className={`list-group-item ${selected ? 'active' : ''}`} key={category.path}>
-                    <Link to={`/${category.path}`}>
-                        {category.name}
-                    </Link>
-                </li>
-            );
-        });
+        return (
+            <ul className='list-group'>
+                {
+                    _.map(categories, category => {
+                        const selected = selectedCategory && category.name === selectedCategory
+                        return (
+                            <li className={`list-group-item ${selected ? 'active' : ''}`} key={category.path}>
+                                <Link to={`/${category.path}`}>
+                                    {category.name}
+                                </Link>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        );
     }
 
     render() {
         return (
             <div>
-                <ul className='list-group'>
-                    {this.showCategories()}
-                </ul>
+                {this.showCategories()}
             </div>
         );
     }
@@ -38,7 +42,7 @@ class CategoriesList extends Component {
 const mapStateToProps = ({ categories, selectedCategory }) => {
     return {
         categories: _.values(categories),
-        selectedCategory: selectedCategory
+        selectedCategory
     };
 };
 export default connect(mapStateToProps, { getCategories })(CategoriesList);
