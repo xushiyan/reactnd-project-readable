@@ -5,13 +5,19 @@ export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_POST = 'GET_POST';
 export const GET_POST_COMMENTS = 'GET_POST_COMMENTS';
+export const ADD_POST = 'ADD_POST';
+export const ADD_POST_COMMENT = 'ADD_POST_COMMENT';
+export const UPDATE_POST = 'UPDATE_POST';
+export const UPDATE_POST_COMMENT = 'UPDATE_POST_COMMENT';
 export const UPDATE_POST_VOTE_SCORE = 'UPDATE_POST_VOTE_SCORE';
 export const UPDATE_POST_COMMENT_VOTE_SCORE = 'UPDATE_POST_COMMENT_VOTE_SCORE';
+export const DELETE_POST = 'DELETE_POST';
+export const DELETE_POST_COMMENT = 'DELETE_POST_COMMENT';
 
 const http_client = axios.create({
     baseURL: 'http://localhost:3001',
 });
-http_client.defaults.headers.common['Authorization'] = 'Bearer some-token';
+http_client.defaults.headers.common['Authorization'] = 'Bearer sometoken';
 http_client.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const getPosts = () => {
@@ -46,6 +52,38 @@ export const getPostComments = (postId) => {
     };
 };
 
+export const addPost = (post) => {
+    const request = http_client.post('/posts', post);
+    return {
+        type: ADD_POST,
+        payload: request
+    };
+};
+
+export const addPostComment = (comment) => {
+    const request = http_client.post('/comments', comment);
+    return {
+        type: ADD_POST_COMMENT,
+        payload: request
+    };
+};
+
+export const updatePost = (postId, title, body) => {
+    const request = http_client.put(`/posts/${postId}`, { title, body });
+    return {
+        type: UPDATE_POST,
+        payload: request
+    };
+};
+
+export const updatePostComment = (commentId, timestamp, body) => {
+    const request = http_client.put(`/comments/${commentId}`, { timestamp, body });
+    return {
+        type: UPDATE_POST_COMMENT,
+        payload: request
+    };
+};
+
 export const updatePostVoteScore = (postId, upOrDownVote) => {
     const request = http_client.post(`/posts/${postId}`, { option: upOrDownVote });
     return {
@@ -58,6 +96,22 @@ export const updatePostCommentVoteScore = (commentId, upOrDownVote) => {
     const request = http_client.post(`/comments/${commentId}`, { option: upOrDownVote });
     return {
         type: UPDATE_POST_COMMENT_VOTE_SCORE,
+        payload: request
+    };
+};
+
+export const deletePost = (postId) => {
+    const request = http_client.delete(`/posts/${postId}`);
+    return {
+        type: DELETE_POST,
+        payload: request
+    };
+};
+
+export const deletePostComment = (commentId) => {
+    const request = http_client.delete(`/comments/${commentId}`);
+    return {
+        type: DELETE_POST_COMMENT,
         payload: request
     };
 };

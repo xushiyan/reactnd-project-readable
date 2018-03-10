@@ -3,7 +3,8 @@ import {
     GET_POSTS, GET_POST,
     UPDATE_POST_VOTE_SCORE,
     CHANGE_SORT_ORDER, CHANGE_SORT_CONDITION,
-    DEFAULT_SORT_ORDER, DEFAULT_SORT_PROPERTY
+    DEFAULT_SORT_ORDER, DEFAULT_SORT_PROPERTY,
+    ADD_POST, UPDATE_POST, DELETE_POST,
 } from '../actions';
 
 export const PostsReducer = (state = {}, action) => {
@@ -14,9 +15,15 @@ export const PostsReducer = (state = {}, action) => {
         case GET_POST:
             const post = action.payload.data;
             return { ...state, [post.id]: post };
+        case ADD_POST:
+            return
+        case UPDATE_POST:
+            return
         case UPDATE_POST_VOTE_SCORE:
             const { id, voteScore } = action.payload.data;
             return { ...state, [id]: { ...state[id], voteScore } };
+        case DELETE_POST:
+            return
         default:
             return state;
     }

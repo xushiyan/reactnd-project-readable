@@ -1,5 +1,3 @@
-
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -15,11 +13,21 @@ class Comment extends Component {
         this.props.updatePostCommentVoteScore(comment.id, event.target.value);
     }
 
+    onClickEdit(event) {
+        const { comment, onEditComment } = this.props;
+        onEditComment(comment);
+    }
+
+    onClickDelete(event) {
+        const { comment, onDeleteComment } = this.props;
+        onDeleteComment(comment.id);
+    }
+
     showComment(comment) {
         return (
             <div>
-                <button>Edit</button>
-                <button>Delete</button>
+                <button className='btn btn-secondary' onClick={this.onClickEdit.bind(this)}>Edit</button>
+                <button className='btn btn-secondary' onClick={this.onClickDelete.bind(this)}>Delete</button>
                 <h4>{comment.author}</h4>
                 <p>{comment.body}</p>
                 <Voter businessObject={comment} updateVoteScore={this.props.updatePostCommentVoteScore} />
