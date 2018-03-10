@@ -16,14 +16,18 @@ export const PostsReducer = (state = {}, action) => {
             const post = action.payload.data;
             return { ...state, [post.id]: post };
         case ADD_POST:
-            return
+            const newPost = action.payload.data;
+            return { ...state, [newPost.id]: newPost };
         case UPDATE_POST:
-            return
+            const updatedPost = action.payload.data;
+            return { ...state, [updatedPost.id]: updatedPost };
         case UPDATE_POST_VOTE_SCORE:
             const { id, voteScore } = action.payload.data;
             return { ...state, [id]: { ...state[id], voteScore } };
         case DELETE_POST:
-            return
+            const newState = { ...state };
+            delete newState[action.payload];
+            return newState;
         default:
             return state;
     }

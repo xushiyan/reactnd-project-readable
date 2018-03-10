@@ -3,16 +3,42 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     getPosts, changeSortOrder, changeSortCondition,
+    addPost, deletePost, updatePost,
     VOTE_SCORE, TIMESTAMP, DEFAULT_SORT_ORDER, SORT_ORDERS
 } from '../actions';
 import { Link } from 'react-router-dom';
 import PostPreview from './post_preview';
 import PostDetail from './post_detail';
+import Modal from 'react-modal';
+import PostForm from './post_form';
 
 
 class PostsList extends Component {
+    state = {
+        postFormModalOpen: false,
+        editingPost: null
+    }
+
+    openPostFormModal(editingPost) {
+        this.setState({
+            postFormModalOpen: true,
+            editingPost
+        });
+    }
+
+    closePostFormModal() {
+        this.setState({
+            postFormModalOpen: false,
+            editingPost: null
+        });
+    }
+
     componentDidMount() {
         this.props.getPosts();
+    }
+
+    onClickNewPost(event) {
+        this.openPostFormModal(null);
     }
 
     onClickSort(event) {
@@ -27,7 +53,7 @@ class PostsList extends Component {
     }
 
     showPosts() {
-        const { selectedCategory } = this.props;
+        const { selectedCategory, deletePost } = this.props;
         const posts = (
             selectedCategory
                 ? _.filter(this.props.posts, p => { return p.category === selectedCategory })
@@ -39,7 +65,10 @@ class PostsList extends Component {
                     _.map(posts, post => {
                         return (
                             <li className='list-group-item' key={post.id}>
-                                <PostPreview post={post} />
+                                <PostPreview
+                                    post={post}
+                                    onEditPost={this.openPostFormModal.bind(this)}
+                                    onDeletePost={deletePost} />
                             </li>
                         );
                     })
@@ -49,9 +78,11 @@ class PostsList extends Component {
     }
 
     render() {
+        const { postFormModalOpen, editingPost } = this.state;
         return (
             <div>
                 <div className='btn-toolbar'>
+                    <h3>Sort by</h3>
                     <div className='btn-group' role='group'>
                         <button className='btn btn-secondary'
                             onClick={this.onClickSort.bind(this)}
@@ -64,7 +95,14 @@ class PostsList extends Component {
                             {TIMESTAMP}
                         </button>
                     </div>
-                    <Link className='btn btn-primary' to='/posts/edit'>New Post</Link>
+                    <button className='btn btn-primary' onClick={this.onClickNewPost.bind(this)}>New Post</button>
+                    <Modal
+                        isOpen={postFormModalOpen}
+                        onRequestClose={this.closePostFormModal.bind(this)}
+                        contentLabel='Add or Edit post'
+                        ariaHideApp={false}>
+                        <PostForm post={editingPost} doneSubmit={this.closePostFormModal.bind(this)} />
+                    </Modal>
                     {this.showPosts()}
                 </div>
             </div>
@@ -85,5 +123,6 @@ const mapStateToProps = ({ posts, selectedCategory, postsSortCondition }) => {
 export default connect(mapStateToProps, {
     getPosts,
     changeSortOrder,
-    changeSortCondition
+    changeSortCondition,
+    addPost, deletePost, updatePost,
 })(PostsList);

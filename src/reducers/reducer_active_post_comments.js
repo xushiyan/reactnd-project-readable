@@ -19,14 +19,14 @@ export default (state = {}, action) => {
             const newComment = action.payload.data;
             return { ...state, [newComment.id]: newComment };
         case UPDATE_POST_COMMENT:
-            const comment = action.payload.data;
-            return { ...state, [comment.id]: comment };
+            const updatedComment = action.payload.data;
+            return { ...state, [updatedComment.id]: updatedComment };
         case UPDATE_POST_COMMENT_VOTE_SCORE:
             const { id, voteScore } = action.payload.data;
             return { ...state, [id]: { ...state[id], voteScore } };
         case DELETE_POST_COMMENT:
             const newState = { ...state };
-            delete newState[action.payload.data.id];
+            delete newState[action.payload];
             return newState;
         default:
             return state;

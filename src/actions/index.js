@@ -100,11 +100,11 @@ export const updatePostCommentVoteScore = (commentId, upOrDownVote) => {
     };
 };
 
-export const deletePost = (postId) => {
-    const request = http_client.delete(`/posts/${postId}`);
+export const deletePost = (postId, callback = () => { }) => {
+    const request = http_client.delete(`/posts/${postId}`).then(() => callback());
     return {
         type: DELETE_POST,
-        payload: request
+        payload: postId
     };
 };
 
@@ -112,7 +112,7 @@ export const deletePostComment = (commentId) => {
     const request = http_client.delete(`/comments/${commentId}`);
     return {
         type: DELETE_POST_COMMENT,
-        payload: request
+        payload: commentId
     };
 };
 

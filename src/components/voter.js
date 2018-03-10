@@ -11,8 +11,8 @@ export default class Voter extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
-                <button onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
+                <button className='btn btn-secondary' onClick={this.onClickChangeVoteScore.bind(this)} value='upVote'>↑</button>
+                <button className='btn btn-secondary' onClick={this.onClickChangeVoteScore.bind(this)} value='downVote'>↓</button>
             </div>
         );
     }

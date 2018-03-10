@@ -66,25 +66,22 @@ class PostCommentsList extends Component {
 
     showComments() {
         const { comments } = this.props;
-        if (comments.length === 0)
-            return <h3>No comment.</h3>
-        else
-            return (
-                <ul className='list-group'>
-                    {
-                        _.map(comments, comment => {
-                            return (
-                                <li className='list-group-item' key={comment.id}>
-                                    <Comment
-                                        comment={comment}
-                                        onEditComment={this.openCommentFormModal.bind(this)}
-                                        onDeleteComment={this.props.deletePostComment} />
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-            )
+        return (
+            <ul className='list-group'>
+                {
+                    _.map(comments, comment => {
+                        return (
+                            <li className='list-group-item' key={comment.id}>
+                                <Comment
+                                    comment={comment}
+                                    onEditComment={this.openCommentFormModal.bind(this)}
+                                    onDeleteComment={this.props.deletePostComment} />
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        )
     }
 
     render() {
@@ -98,9 +95,10 @@ class PostCommentsList extends Component {
                     contentLabel='Add or Edit Comment'
                     ariaHideApp={false}>
                     <form onSubmit={this.onClickSubmitCommentForm.bind(this)}>
-                        {editingComment && <h3>{editingComment.author}</h3>}
-                        {!editingComment && <input placeholder='author' name='author' />}
-                        <input placeholder={editingComment ? editingComment.body : 'enter comment here'} name='body' />
+                        {editingComment
+                            ? <h3>{editingComment.author}</h3>
+                            : <input placeholder='author' name='author' />}
+                        <input placeholder='enter comment here' name='body' defaultValue={editingComment && editingComment.body} />
                         <button type='submit' className='btn btn-primary'>Submit</button>
                         <button type='button' className='btn btn-secondary' onClick={this.closeCommentFormModal.bind(this)}>Cancel</button>
                     </form>

@@ -3,27 +3,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPost, updatePostVoteScore } from '../actions';
 import Voter from './voter';
+import Toolbar from './toolbar';
 
 
 class PostPreview extends Component {
-    onClickEdit() {
-
-    }
-
-    onClickDelete() {
-
-    }
 
     showPost(post) {
+        const { onEditPost, onDeletePost, updatePostVoteScore } = this.props;
         return (
             <div>
-                <button>Edit</button>
-                <button>Delete</button>
+                <Toolbar businessObject={post} onEdit={onEditPost} onDelete={onDeletePost} />
                 <Link to={`/${post.category}/${post.id}`} className='btn btn-link'>{post.title}</Link>
-                <h4>{post.author}</h4>
-                <Voter businessObject={post} updateVoteScore={this.props.updatePostVoteScore} />
-                <p>{post.voteScore}</p>
-                <p>{post.commentCount}</p>
+                <h4>Posted by {post.author}</h4>
+                <Voter businessObject={post} updateVoteScore={updatePostVoteScore} />
+                <p>{post.voteScore} votes</p>
+                <p>{post.commentCount} comments</p>
             </div>
         );
     }

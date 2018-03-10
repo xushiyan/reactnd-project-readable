@@ -4,6 +4,7 @@ import {
     updatePostCommentVoteScore,
 } from '../actions';
 import Voter from './voter';
+import Toolbar from './toolbar';
 
 
 class Comment extends Component {
@@ -13,25 +14,15 @@ class Comment extends Component {
         this.props.updatePostCommentVoteScore(comment.id, event.target.value);
     }
 
-    onClickEdit(event) {
-        const { comment, onEditComment } = this.props;
-        onEditComment(comment);
-    }
-
-    onClickDelete(event) {
-        const { comment, onDeleteComment } = this.props;
-        onDeleteComment(comment.id);
-    }
-
     showComment(comment) {
+        const { onEditComment, onDeleteComment, updatePostCommentVoteScore } = this.props;
         return (
             <div>
-                <button className='btn btn-secondary' onClick={this.onClickEdit.bind(this)}>Edit</button>
-                <button className='btn btn-secondary' onClick={this.onClickDelete.bind(this)}>Delete</button>
-                <h4>{comment.author}</h4>
+                <Toolbar businessObject={comment} onEdit={onEditComment} onDelete={onDeleteComment} />
+                <h4>{comment.author} says:</h4>
                 <p>{comment.body}</p>
-                <Voter businessObject={comment} updateVoteScore={this.props.updatePostCommentVoteScore} />
-                <p>{comment.voteScore}</p>
+                <p>{comment.voteScore} votes</p>
+                <Voter businessObject={comment} updateVoteScore={updatePostCommentVoteScore} />
             </div>
         );
     }
