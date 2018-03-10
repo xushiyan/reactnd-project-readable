@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PostsList from './posts_list';
 import CategoriesList from './categories_list';
 import { connect } from 'react-redux';
-import { selectCategory } from '../actions';
+import { selectCategory, clearActivePost } from '../actions';
 
 
 class Home extends Component {
@@ -17,6 +17,7 @@ class Home extends Component {
         const { match } = this.props;
         const category = !match || match.url === '/' ? null : match.params.category;
         this.props.selectCategory(category);
+        this.props.clearActivePost();
     }
 
     render() {
@@ -29,4 +30,4 @@ class Home extends Component {
     }
 }
 
-export default connect(null, { selectCategory })(Home);
+export default connect(null, { selectCategory, clearActivePost })(Home);

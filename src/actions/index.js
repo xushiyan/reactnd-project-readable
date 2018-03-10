@@ -126,6 +126,15 @@ export const selectCategory = (category) => {
     };
 };
 
+/* clear active post */
+export const CLEAR_ACTIVE_POST = 'CLEAR_ACTIVE_POST';
+
+export const clearActivePost = () => {
+    return {
+        type: CLEAR_ACTIVE_POST
+    };
+};
+
 /* sort posts */
 export const CHANGE_SORT_ORDER = 'CHANGE_SORT_ORDER';
 export const CHANGE_SORT_CONDITION = 'CHANGE_SORT_CONDITION';

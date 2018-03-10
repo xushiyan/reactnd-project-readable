@@ -2,10 +2,13 @@ import _ from 'lodash';
 import {
     GET_POST_COMMENTS, UPDATE_POST_COMMENT_VOTE_SCORE,
     UPDATE_POST_COMMENT, DELETE_POST_COMMENT, ADD_POST_COMMENT,
+    CLEAR_ACTIVE_POST,
 } from '../actions';
 
 export default (state = {}, action) => {
     switch (action.type) {
+        case CLEAR_ACTIVE_POST:
+            return {};
         case GET_POST_COMMENTS:
             const commentsArray = action.payload.data;
             if (commentsArray.length === 0)

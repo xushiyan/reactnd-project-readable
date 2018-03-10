@@ -66,22 +66,25 @@ class PostCommentsList extends Component {
 
     showComments() {
         const { comments } = this.props;
-        return (
-            <ul className='list-group'>
-                {
-                    _.map(comments, comment => {
-                        return (
-                            <li className='list-group-item' key={comment.id}>
-                                <Comment
-                                    comment={comment}
-                                    onEditComment={this.openCommentFormModal.bind(this)}
-                                    onDeleteComment={this.props.deletePostComment} />
-                            </li>
-                        );
-                    })
-                }
-            </ul>
-        )
+        if (comments.length === 0)
+            return <h3>No comment.</h3>
+        else
+            return (
+                <ul className='list-group'>
+                    {
+                        _.map(comments, comment => {
+                            return (
+                                <li className='list-group-item' key={comment.id}>
+                                    <Comment
+                                        comment={comment}
+                                        onEditComment={this.openCommentFormModal.bind(this)}
+                                        onDeleteComment={this.props.deletePostComment} />
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+            )
     }
 
     render() {
