@@ -75,6 +75,7 @@ class PostDetail extends PostPreview {
         return (
             <div>
                 <Link to='/'>Back to All Posts</Link>
+                <br />
                 <Link to={`/${post.category}`}>Back to Posts in {post.category}</Link>
                 {this.showPost(post, numComments)}
                 <CommentsList postId={post.id} />

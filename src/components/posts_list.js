@@ -78,11 +78,12 @@ class PostsList extends Component {
     }
 
     render() {
+        const { sortProperty, sortOrder } = this.props;
         const { postFormModalOpen, editingPost } = this.state;
         return (
             <div>
                 <div className='btn-toolbar'>
-                    <h3>Sort by</h3>
+                    <h3>Sort by {sortProperty} {sortOrder === 'asc' ? '↑' : '↓'}</h3>
                     <div className='btn-group' role='group'>
                         <button className='btn btn-secondary'
                             onClick={this.onClickSort.bind(this)}

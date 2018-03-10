@@ -10,31 +10,25 @@ class CategoriesList extends Component {
         this.props.getCategories();
     }
 
-    showCategories() {
+    render() {
         const categories = [{ name: 'All Categories', path: '' }, ...this.props.categories];
         const { selectedCategory } = this.props;
         return (
-            <ul className='list-group'>
-                {
-                    _.map(categories, category => {
-                        const selected = selectedCategory && category.name === selectedCategory
-                        return (
-                            <li className={`list-group-item ${selected ? 'active' : ''}`} key={category.path}>
-                                <Link to={`/${category.path}`}>
-                                    {category.name}
-                                </Link>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
-        );
-    }
-
-    render() {
-        return (
             <div>
-                {this.showCategories()}
+                <ul className='list-group'>
+                    {
+                        _.map(categories, category => {
+                            const selected = selectedCategory && category.name === selectedCategory
+                            return (
+                                <li className='list-group-item' key={category.path}>
+                                    <Link to={`/${category.path}`}>
+                                        {`${category.name} ${selected ? '(current)' : ''}`}
+                                    </Link>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
             </div>
         );
     }
