@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     getPostComments, addPostComment, updatePostComment, deletePostComment
-} from '../actions';
+} from '../actions/actions_comments';
 import { Link } from 'react-router-dom';
 import Comment from './comment';
 import Modal from 'react-modal';

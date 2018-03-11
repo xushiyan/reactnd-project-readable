@@ -2,10 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    getPosts, changeSortOrder, changeSortCondition,
-    addPost, deletePost, updatePost,
+    getPosts, addPost, deletePost, updatePost,
+} from '../actions/actions_posts';
+import {
+    changeSortOrder, changeSortCondition,
     VOTE_SCORE, TIMESTAMP, DEFAULT_SORT_ORDER, SORT_ORDERS
-} from '../actions';
+} from '../actions/actions_sort';
 import { Link } from 'react-router-dom';
 import PostPreview from './post_preview';
 import PostDetail from './post_detail';

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PostsList from './posts_list';
 import CategoriesList from './categories_list';
 import { connect } from 'react-redux';
-import { selectCategory, clearActivePost } from '../actions';
+import { selectCategory } from '../actions/actions_categories';
+import { clearActivePost } from '../actions/actions_posts';
 
 
 class Home extends Component {

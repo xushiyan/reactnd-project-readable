@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
     updatePostCommentVoteScore,
-} from '../actions';
+} from '../actions/actions_comments';
 import Voter from './voter';
 import Toolbar from './toolbar';
 

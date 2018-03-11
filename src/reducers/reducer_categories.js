@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_CATEGORIES, SELECT_CATEGORY } from '../actions';
+import { GET_CATEGORIES, SELECT_CATEGORY } from '../actions/actions_categories';
 
 export const CategoriesReducer = (state = {}, action) => {
     switch (action.type) {

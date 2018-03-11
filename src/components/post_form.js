@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addPost, updatePost } from '../actions';
+import { addPost, updatePost } from '../actions/actions_posts';
 import { uuidv4 } from '../utils';
 
 

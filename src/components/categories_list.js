@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategories } from '../actions';
+import { getCategories } from '../actions/actions_categories';
 import { Link } from 'react-router-dom';
 
 

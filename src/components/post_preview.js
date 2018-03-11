@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPost, updatePostVoteScore } from '../actions';
+import { getPost, updatePostVoteScore } from '../actions/actions_posts';
 import Voter from './voter';
 import Toolbar from './toolbar';
 

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPost, updatePostVoteScore, deletePost, updatePost } from '../actions';
+import { getPost, updatePostVoteScore, deletePost, updatePost } from '../actions/actions_posts';
 import CommentsList from './comments_list';
 import PostPreview from './post_preview';
 import Voter from './voter';
