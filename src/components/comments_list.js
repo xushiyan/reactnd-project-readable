@@ -7,14 +7,21 @@ import {
 import { Link } from 'react-router-dom';
 import Comment from './comment';
 import Modal from 'react-modal';
-import Base62 from 'base62';
-import md5 from 'md5';
+import { uuidv4 } from '../utils';
 
 
 class PostCommentsList extends Component {
     state = {
         commentFormModalOpen: false,
         editingComment: null
+    }
+
+    constructor() {
+        super();
+        this.openCommentFormModal = this.openCommentFormModal.bind(this);
+        this.closeCommentFormModal = this.closeCommentFormModal.bind(this);
+        this.onClickNewComment = this.onClickNewComment.bind(this);
+        this.onClickSubmitCommentForm = this.onClickSubmitCommentForm.bind(this);
     }
 
     openCommentFormModal(editingComment) {
@@ -46,11 +53,10 @@ class PostCommentsList extends Component {
             updatePostComment(editingComment.id, Date.now(), body.value);
         } else {
             // add new post comment
-            const ts = Date.now();
             addPostComment({
-                id: md5(postId + Base62.encode(ts)),
+                id: uuidv4(),
                 parentId: postId,
-                timestamp: ts,
+                timestamp: Date.now(),
                 author: author.value,
                 body: body.value
             });
@@ -74,7 +80,7 @@ class PostCommentsList extends Component {
                             <li className='list-group-item' key={comment.id}>
                                 <Comment
                                     comment={comment}
-                                    onEditComment={this.openCommentFormModal.bind(this)}
+                                    onEditComment={this.openCommentFormModal}
                                     onDeleteComment={this.props.deletePostComment} />
                             </li>
                         );
@@ -88,19 +94,19 @@ class PostCommentsList extends Component {
         const { commentFormModalOpen, editingComment } = this.state;
         return (
             <div>
-                <button className='btn btn-primary' onClick={this.onClickNewComment.bind(this)}>New Comment</button>
+                <button className='btn btn-primary' onClick={this.onClickNewComment}>New Comment</button>
                 <Modal
                     isOpen={commentFormModalOpen}
-                    onRequestClose={this.closeCommentFormModal.bind(this)}
+                    onRequestClose={this.closeCommentFormModal}
                     contentLabel='Add or Edit Comment'
                     ariaHideApp={false}>
-                    <form onSubmit={this.onClickSubmitCommentForm.bind(this)}>
+                    <form onSubmit={this.onClickSubmitCommentForm}>
                         {editingComment
                             ? <h3>{editingComment.author}</h3>
                             : <input placeholder='author' name='author' />}
                         <input placeholder='enter comment here' name='body' defaultValue={editingComment && editingComment.body} />
                         <button type='submit' className='btn btn-primary'>Submit</button>
-                        <button type='button' className='btn btn-secondary' onClick={this.closeCommentFormModal.bind(this)}>Cancel</button>
+                        <button type='button' className='btn btn-secondary' onClick={this.closeCommentFormModal}>Cancel</button>
                     </form>
                 </Modal>
                 {this.showComments()}

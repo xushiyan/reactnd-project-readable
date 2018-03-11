@@ -2,11 +2,15 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addPost, updatePost } from '../actions';
-import Base62 from 'base62';
-import md5 from 'md5';
+import { uuidv4 } from '../utils';
 
 
 class PostForm extends Component {
+
+    constructor() {
+        super();
+        this.onClickSubmitForm = this.onClickSubmitForm.bind(this);
+    }
 
     onClickSubmitForm(event) {
         event.preventDefault();
@@ -15,10 +19,9 @@ class PostForm extends Component {
         if (post) {
             updatePost(post.id, title.value, body.value);
         } else {
-            const ts = Date.now();
             addPost({
-                id: md5(author.value + Base62.encode(ts)),
-                timestamp: ts,
+                id: uuidv4(),
+                timestamp: Date.now(),
                 title: title.value || 'untitled',
                 author: author.value,
                 body: body.value,
@@ -31,7 +34,7 @@ class PostForm extends Component {
     render() {
         const { post, categories, doneSubmit } = this.props;
         return (
-            <form onSubmit={this.onClickSubmitForm.bind(this)}>
+            <form onSubmit={this.onClickSubmitForm}>
                 <div className="input-group input-group-lg">
                     {post
                         ? <h3>Author {post.author}</h3>

@@ -18,11 +18,12 @@ class CategoriesList extends Component {
                 <ul className='list-group'>
                     {
                         _.map(categories, category => {
-                            const selected = selectedCategory && category.name === selectedCategory
+                            const { name, path } = category;
+                            const selected = selectedCategory && name === selectedCategory
                             return (
-                                <li className='list-group-item' key={category.path}>
-                                    <Link to={`/${category.path}`}>
-                                        {`${category.name} ${selected ? '(current)' : ''}`}
+                                <li className='list-group-item' key={path}>
+                                    <Link to={`/${path}`}>
+                                        {`${name} ${selected ? '(current)' : ''}`}
                                     </Link>
                                 </li>
                             );
